@@ -40,6 +40,12 @@ export function Sidebar({ role = 'super_admin', isOpen, onClose }: SidebarProps)
       roles: ['super_admin', 'school_admin', 'teacher', 'accountant', 'librarian', 'admission_officer', 'student', 'parent'],
     },
     {
+      title: isBengali ? 'ব্যবহারকারী ও রোল' : 'Users & Roles',
+      href: '/dashboard/users',
+      icon: ShieldCheck,
+      roles: ['super_admin'],
+    },
+    {
       title: isBengali ? 'শিক্ষার্থী ব্যবস্থাপনা' : 'Students',
       href: '/dashboard/students',
       icon: Users,

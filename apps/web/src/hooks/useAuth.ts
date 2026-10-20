@@ -9,6 +9,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
+  updatePassword,
   type User as FirebaseUser,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -86,6 +88,17 @@ export function useAuth() {
     }
   }, [state.user]);
 
+  /** Send password reset email */
+  const resetPassword = useCallback(async (email: string) => {
+    return await sendPasswordResetEmail(auth, email);
+  }, []);
+
+  /** Update current user password */
+  const changePassword = useCallback(async (newPassword: string) => {
+    if (!auth.currentUser) throw new Error('No user currently logged in');
+    return await updatePassword(auth.currentUser, newPassword);
+  }, []);
+
   return {
     user: state.user,
     loading: state.loading,
@@ -93,6 +106,8 @@ export function useAuth() {
     isAuthenticated: !!state.user,
     login,
     logout,
+    resetPassword,
+    changePassword,
     getToken,
     getTokenForced,
   };
