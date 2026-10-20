@@ -1,0 +1,70 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      // Note: Storage rules cannot read Firestore.
+      // Role checks must be enforced at the application/backend level.
+      // These rules provide basic auth and file type validation.
+      return isAuthenticated();
+    }
+    
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*') &&
+             request.resource.size < 5 * 1024 * 1024; // 5MB max
+    }
+    
+    function isValidDocument() {
+      return (request.resource.contentType.matches('application/pdf') ||
+              request.resource.contentType.matches('image/.*')) &&
+             request.resource.size < 10 * 1024 * 1024; // 10MB max
+    }
+
+    // Profile photos
+    match /profiles/{userId}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && 
+                      request.auth.uid == userId && 
+                      isValidImage();
+    }
+    
+    // Student photos (admin uploaded)
+    match /students/{studentId}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && isValidImage();
+    }
+
+    // Admission documents
+    match /admissions/{admissionId}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isValidDocument(); // Public admission form allows uploads
+    }
+
+    // Gallery images
+    match /gallery/{albumId}/{fileName} {
+      allow read: if true; // Public gallery
+      allow write: if isAuthenticated() && isValidImage();
+    }
+
+    // School branding and content
+    match /school/{fileName} {
+      allow read: if true; // Public school images
+      allow write: if isAuthenticated() && isValidImage();
+    }
+
+    // Notice attachments
+    match /notices/{noticeId}/{fileName} {
+      allow read: if true; // Published notices are public
+      allow write: if isAuthenticated() && isValidDocument();
+    }
+
+    // Deny everything else
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
