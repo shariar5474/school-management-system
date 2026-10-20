@@ -150,7 +150,7 @@ export function Footer() {
           <div className="flex items-center gap-1.5 flex-wrap justify-center">
             <span className="text-gray-400">Developed by</span>
             <a
-              href="YOUR_FACEBOOK_PAGE_URL"
+              href="https://www.facebook.com/shariarislamfm"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Developer Facebook Page - SHARIAR ISLAM SOHEL"
