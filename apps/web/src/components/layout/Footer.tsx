@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { GraduationCap, MapPin, Phone, Mail, Clock, Heart } from 'lucide-react';
+import { GraduationCap, MapPin, Phone, Mail, Clock, Facebook } from 'lucide-react';
 import { useTranslation } from '@/i18n';
 
 export function Footer() {
@@ -140,17 +140,26 @@ export function Footer() {
         </div>
 
         {/* Bottom Line */}
-        <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
-          <p>
+        <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
+          <p className="text-center sm:text-left">
             &copy; {new Date().getFullYear()}{' '}
             {isBengali ? 'অগ্রণী মডেল উচ্চ বিদ্যালয় ও কলেজ।' : 'Agrani Model High School & College.'}{' '}
             {isBengali ? 'সর্বস্বত্ব সংরক্ষিত।' : 'All rights reserved.'}
           </p>
-          <p className="flex items-center gap-1">
-            <span>Designed & Built with</span>
-            <Heart className="w-3.5 h-3.5 text-red-500 inline fill-red-500" />
-            <span>for Educational Excellence</span>
-          </p>
+
+          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+            <span className="text-gray-400">Developed by</span>
+            <a
+              href="YOUR_FACEBOOK_PAGE_URL"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Developer Facebook Page - SHARIAR ISLAM SOHEL"
+              className="inline-flex items-center gap-1.5 font-bold text-yellow-400 hover:text-blue-400 hover:underline transition-all duration-200 group px-2 py-1 rounded-md hover:bg-white/5 active:scale-95"
+            >
+              <Facebook className="w-3.5 h-3.5 text-blue-400 group-hover:text-blue-300 group-hover:scale-110 transition-transform shrink-0" />
+              <span>SHARIAR ISLAM SOHEL</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
